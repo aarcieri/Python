@@ -53,6 +53,57 @@ while(i<len(lines)):
     else: i+=1
     
 ========================================================================
+import fitz
+import os
+
+os.chdir('/home/antonio/Scrivania/Scuola/Scuola_2021-2022/PRESIDI')
+
+area = []
+
+for i in range(1,10):
+    #print('create file: ', 'area_'+str(i)+'.csv')
+    area.append(open('area_'+str(i)+'.csv', 'w'))
+
+text=''
+num=0
+testo=''
+risposte=''
+i=0
+with fitz.open("Domande della Prova Preselettiva.pdf") as doc:
+    for page in doc:
+        text+=page.getText()
+#text=text.replace('\n','')
+lines=text.splitlines()
+
+while(i<len(lines)):
+    #print(lines[i])
+    #input('->invio ')
+    #if(lines[i].startswith('DOMANDA 3.490')): print(i)
+    if(lines[i].startswith('DOMANDA ')):
+        num = lines[i]
+        x = int(float(num.split()[1]))
+        testo=''
+        risposte=''
+        i+=1
+        while(lines[i][0]!='['):
+            testo+=lines[i]
+            i+=1
+        while(not lines[i].startswith('[d]')):
+              risposte+=lines[i]
+              i+=1
+        risposte+=lines[i]
+        i+=1
+
+        a=risposte[3:risposte.index('[b')]
+        b=risposte[risposte.index('[b')+3:risposte.index('[c')]
+        c=risposte[risposte.index('[c')+3:risposte.index('[d')]
+        d=risposte[risposte.index('[d')+3:]
+        
+        #print(num,'\n', testo,'\n', risposte)
+        #print('file: ', x)
+        area[x-1].write(num+';'+ testo+';'+a+';'+b+';'+c+';'+d+'\n')
+        area[x-1].flush()
+    else: i+=1
 
    
 
