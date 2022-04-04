@@ -1,0 +1,22 @@
+1) Install:  pip install PyMuPDF
+
+2) execute code:
+import fitz
+import os
+
+os.getcwd()
+os.chdir('C:\AARCIERI\Python')
+os.getcwd()
+
+with fitz.open("Domande della Prova Preselettiva.pdf") as doc:
+    text = ""
+    for page in doc:
+        t=page.getText()
+        print(t)
+        text+=t
+        
+ 
+        
+        
+
+
