@@ -105,7 +105,142 @@ while(i<len(lines)):
         area[x-1].flush()
     else: i+=1
 
-   
+   ======================================================================================
+import fitz
+import os
+from random import randint
+
+os.chdir('/home/antonio/Scrivania/Scuola/Scuola_2021-2022/PRESIDI')
+
+def LoadAree():
+    area = []
+
+    for i in range(1,10):
+        #print('create file: ', 'area_'+str(i)+'.csv')
+        area.append(open('area_'+str(i)+'.csv', 'w'))
+
+    text=''
+    num=0
+    testo=''
+    risposte=''
+    i=0
+    with fitz.open("Domande della Prova Preselettiva.pdf") as doc:
+        for page in doc:
+            text+=page.get_text()
+    #text=text.replace('\n','')
+    lines=text.splitlines()
+
+    while(i<len(lines)):
+        if(lines[i].startswith('DOMANDA ')):
+            num = lines[i]
+            x = int(float(num.split()[1]))
+            testo=''
+            risposte=''
+            i+=1
+            while(lines[i][0]!='['):
+                testo+=' ' +lines[i]
+                i+=1
+            while(not lines[i].startswith('[d]')):
+                  risposte+=lines[i]
+                  i+=1
+            risposte+=lines[i]
+            i+=1
+            testo=RimuoviNumeroPagina(testo, 1453)
+            a=RimuoviNumeroPagina(risposte[3:risposte.index('[b')], 1453)
+            b=RimuoviNumeroPagina(risposte[risposte.index('[b')+3:risposte.index('[c')], 1453)
+            c=RimuoviNumeroPagina(risposte[risposte.index('[c')+3:risposte.index('[d')], 1453)
+            d=RimuoviNumeroPagina(risposte[risposte.index('[d')+3:], 1453)
+            
+            #print(num,'\n', testo,'\n', risposte)
+            #print('file: ', x)
+            area[x-1].write(num+';'+ testo+';'+a+';'+b+';'+c+';'+d+'\n')
+            area[x-1].flush()
+        else: i+=1
+    print('Fine Caricamento QUESITI')
+
+def RimuoviNumeroPagina(s, ultimaPagina):
+    pagina=True
+    end='/'+str(ultimaPagina)
+    if(s.count(end)==0): return s.strip()
+    slash=s.index(end)
+    digit=0
+    j=slash-1
+    while(ord(s[j])>=48 and ord(s[j])<=57):
+       j-=1
+       digit+=1
+
+    if(digit>0):
+        if(slash-digit==0):
+            s=s[slash+len(str(ultimaPagina))+1:]
+        else:
+            s=s[s.index(end)+len(end):]
+            
+
+    return s.strip()
+
+def MostraQuesito(area, numero):
+     f=open('area_'+str(area)+'.csv', 'r')
+     l=f.readline().split(';')
+     while(l[0]!='' and not l[0].endswith(str(area)+'.'+str(numero))):
+         l=f.readline().split(';')
+     if( l[0] !=''):
+         print(l[0])
+         print()
+         print(' ',l[1])
+         print()
+         for i in range(2,6):
+             print(str(chr(95+i))+')', l[i])
+     else:
+        print('Quesito NON Trovato')
+     
+def QuesitoRandomizzato(area, numero):
+     f=open('area_'+str(area)+'.csv', 'r')
+     l=f.readline().split(';')
+     while(l[0]!='' and not l[0].endswith(str(area)+'.'+str(numero))):
+         l=f.readline().split(';')
+     if( l[0] !=''):
+         print(l[0])
+         print()
+         print(' ',l[1])
+         print()
+         
+         quesiti=[]
+         for i in range(2,6):
+             quesiti.append(l[i])
+             #print(l[i])
+
+         q=[]
+         indici=[0,1,2,3]
+         giusta=-1
+         while(len(indici)>0):
+            i=randint(0,len(indici)-1)
+            if(indici[i]==0): giusta=len(q)
+            q.append(quesiti[indici[i]])
+            x=indici.pop(i)
+            
+         for i in range(0,len(q)):
+            print(str(chr(97+i))+')', q[i])
+         return giusta
+     else:
+        print('Quesito NON Trovato')
+
+def Test(area, numero):
+    giusto = QuesitoRandomizzato(area, numero)
+    scelta=input('scelta-->')
+    cond = scelta not in {'a','b','c','d'}
+    while(cond):
+        print('SCELTA non Valida')
+        scelta=input('scelta-->')
+        cond = scelta not in {'a','b','c','d'}
+    if( (ord(scelta)-ord('a')) == giusto): print('esatto')
+    else: print('ERRATO era la:', chr(giusto+ord('a')))
+    
+
+LoadAree()
+#MostraQuesito(1,1)
+
+
+
 
 
 
