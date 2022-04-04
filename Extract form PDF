@@ -1,6 +1,9 @@
 1) Install:  pip install PyMuPDF
 
 2) execute code:
+
+========================================================================
+
 import fitz
 import os
 
@@ -15,8 +18,49 @@ with fitz.open("Domande della Prova Preselettiva.pdf") as doc:
         print(t)
         text+=t
         
+ ========================================================================
  
-        
+import fitz
+import os
+
+os.chdir('C:\AARCIERI')
+
+text=''
+num=0
+testo=''
+risposte=[]
+i=0
+with fitz.open("Domande della Prova Preselettiva.pdf") as doc:
+    for page in doc:
+        text+=page.getText()
+lines=text.splitlines()
+
+while(i<len(lines)):
+    #print(lines[i])
+    #input('->invio ')
+    if(lines[i].startswith('DOMANDA ')):
+        num = lines[i]
+        testo=''
+        risposte=[]
+        i+=1
+        while(lines[i][0]!='['):
+            testo+=lines[i]
+            i+=1
+        for j in range(0,4):
+            risposte.append(lines[i+j])
+        i+=3
+        #print(num,'\n', testo,'\n', risposte)
+    else: i+=1
+    
+========================================================================
+
+   
+
+
+
+
+            
+       
         
 
 
