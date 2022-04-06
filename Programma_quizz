@@ -1,6 +1,9 @@
+
 import fitz
 import os
 from random import randint
+
+SEP = '#'
 
 os.chdir('/home/antonio/Scrivania/Scuola/Scuola_2021-2022/PRESIDI')
 
@@ -35,24 +38,26 @@ def LoadAree():
             while(not lines[i].startswith('[d]')):
                   risposte+=' ' +lines[i]
                   i+=1
-            risposte+=' ' +lines[i]
-            i+=1
-            if(num=='DOMANDA 1.489'): print(num,'\n', testo,'\n', risposte)
+            while(i<len(lines) and not lines[i].startswith('[RIF.')):
+                risposte+=' ' +lines[i]
+                i+=1
+            if(num=='DOMANDA 7.17'): print('-'+testo+'-')
             risposte=risposte.strip()
             testo=RimuoviNumeroPagina(testo, 1453)
+            if(num=='DOMANDA 7.17'): print('-'+testo+'-')
             a=RimuoviNumeroPagina(risposte[3:risposte.index('[b')], 1453)
             b=RimuoviNumeroPagina(risposte[risposte.index('[b')+3:risposte.index('[c')], 1453)
             c=RimuoviNumeroPagina(risposte[risposte.index('[c')+3:risposte.index('[d')], 1453)
             d=RimuoviNumeroPagina(risposte[risposte.index('[d')+3:], 1453)
-            if(num=='DOMANDA 1.489'): print(num+risposte[3:risposte.index('[b')]+'\n')
-            #print(num,'\n', testo,'\n', risposte)
-            #print('file: ', x)
-            area[x-1].write(num+';'+ testo+';'+a+';'+b+';'+c+';'+d+'\n')
+            #if(num=='DOMANDA 7.11'): print(testo, a,b,c,d)           
+            area[x-1].write(num+SEP+ testo+SEP+a+SEP+b+SEP+c+SEP+d+'\n')
             area[x-1].flush()
         else: i+=1
     print('Fine Caricamento QUESITI')
 
+'''
 def RimuoviNumeroPagina(s, ultimaPagina):
+    s=s.strip()
     pagina=True
     end='/'+str(ultimaPagina)
     if(s.count(end)==0): return s.strip()
@@ -71,12 +76,29 @@ def RimuoviNumeroPagina(s, ultimaPagina):
             
 
     return s.strip()
+'''
+def RimuoviNumeroPagina(s, ultimaPagina):
+    s=s.strip()
+    pagina=True
+    end='/'+str(ultimaPagina)
+    if(s.count(end)==0): return s.strip()
+    slash=s.index(end)
+    digit=0
+    j=slash-1
+    while(j>=0 and ord(s[j])>=48 and ord(s[j])<=57):
+       j-=1
+       digit+=1
+
+    s=s[:slash-digit]+s[slash+len('/1453'):]
+    s=s.replace('  ',' ')
+
+    return s.strip()
 
 def MostraQuesito(area, numero):
      f=open('area_'+str(area)+'.csv', 'r')
-     l=f.readline().split(';')
+     l=f.readline().split(SEP)
      while(l[0]!='' and not l[0].endswith(str(area)+'.'+str(numero))):
-         l=f.readline().split(';')
+         l=f.readline().split(SEP)
      if( l[0] !=''):
          print(l[0])
          print()
@@ -89,9 +111,9 @@ def MostraQuesito(area, numero):
      
 def QuesitoRandomizzato(area, numero):
      f=open('area_'+str(area)+'.csv', 'r')
-     l=f.readline().split(';')
+     l=f.readline().split(SEP)
      while(l[0]!='' and not l[0].endswith(str(area)+'.'+str(numero))):
-         l=f.readline().split(';')
+         l=f.readline().split(SEP)
      if( l[0] !=''):
          print(l[0])
          print()
@@ -129,18 +151,34 @@ def Test(area, numero):
     if( (ord(scelta)-ord('a')) == giusto): print('esatto')
     else: print('ERRATO era la:', chr(giusto+ord('a')))
     
-def SoloCorretti(area):
+           
+def Corretti(area, inizio, fine, oneByone=True):
     f=open('area_'+str(area)+'.csv', 'r')
-    l=f.readline().split(';')
-    while(l[0]!=''):
+    l=f.readline().split(SEP)
+    while(l[0]!='' and not l[0].endswith(str(area)+'.'+str(inizio))):
+         l=f.readline().split(SEP)
+    
+    while(l[0]!='' and int(l[0].split('.')[1])<=fine):
          print(l[0])
          print()
          print(' ',l[1])
          print()
          print(l[2])
-         l=f.readline().split(';')
-         
+         l=f.readline().split(SEP)
+         if(oneByone):
+             input('-- premi Invio --')
+             print('='*50)
+def Prova(area, inizio, fine):
+    for i in range(inizio, fine+1):
+        Test(area,i)
+
+def Studia(area, inizio, fine):
+    Corretti(area,inizio,fine)
+    Prova(area,inizio,fine)
+    
 LoadAree()
 #MostraQuesito(1,1)
+
+
 
 
