@@ -1,0 +1,5 @@
+variabili
+if
+cicli
+array o liste
+funzioni

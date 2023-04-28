@@ -1,0 +1,10 @@
+Lezione n.1
+  Blocly games: labirinto
+  Scratch e gioco del pong
+Lezione n.2
+  Python: variabile, print, input,
+          if e for con range
+
+Lezione n.3
+  Python: le varie forme di if
+  Blockly game: uccello (PER IF)
