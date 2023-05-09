@@ -1,0 +1,7 @@
+Scrivere un programma che
+ricevuta una sequenza di caratteri,
+visualizza la stessa sequenza al contrario.
+
+es. riceviamo ['a','n','d','i','a','m','o']
+e forniamo ['o','m','a','i','d','n','a']
+

@@ -1,0 +1,6 @@
+gioco del tris
+Funzionamenti:
+1) far scegliere una mossa
+2) verifica mossa valida
+3) verifica dopo la mossa se c'e' tris
+4) cambiare giocatore

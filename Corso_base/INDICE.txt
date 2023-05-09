@@ -1,6 +1,7 @@
 Lezione n.1
   Blocly games: labirinto
   Scratch e gioco del pong
+
 Lezione n.2
   Python: variabile, print, input,
           if e for con range
@@ -8,3 +9,14 @@ Lezione n.2
 Lezione n.3
   Python: le varie forme di if
   Blockly game: uccello (PER IF)
+
+Lezione n.4 
+  Python: il ciclo for con range
+  Blockly game: tartaruga
+   
+Lezine n.5
+  Python: Liste
+
+Lezione n.6:
+  Python: Turtle
+	

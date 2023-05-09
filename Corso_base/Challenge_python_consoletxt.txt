@@ -1,0 +1,12 @@
+Scrivere un programma in Python,
+che implementa lo snake sul terminale senza grafica
+       ------
+      |      |
+------       |
+             o
+             *
+
+Consiglio: 
+1) matrice di caratteri da visualizzare continuamente
+2) modulo keyboard
+3) non utilizzare il modulo courses

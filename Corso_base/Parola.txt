@@ -1,0 +1,13 @@
+
+gioco per 
+far indovinare una parola
+
+parola='ciao'
+
+****
+
+se indovini 'c'
+
+c***
+
+
