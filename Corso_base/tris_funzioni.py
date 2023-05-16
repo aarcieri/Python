@@ -6,27 +6,16 @@ m = [
     ['*','*','*']
     ]
 
-fine = False
 player1 = 'X'
 player2 = 'O'
-player  = player1
-mosse_rimaste=9
 
-def StampaGriglia():
+def StampaGriglia(m):
     for i in range(3):
         for j in range(3):
             print(m[i][j],end=' ')
         print()   
 
-#ciclo di gioco
-while fine==False:
-    os.system('cls') # pulisce lo schermo
-
-    #stampa la griglia
-    StampaGriglia()
-        
-    
-    #tiro e verifico mossa
+def Tira(player):
     valida = False
     while valida == False:
         print('riga colonna della mossa, muove:',player)
@@ -34,12 +23,9 @@ while fine==False:
         c= int(input())
         if(m[r][c]=='*'):
             valida = True
-    
-    #faccio mossa
-    m[r][c]=player
-    mosse_rimaste=mosse_rimaste-1
+    return r, c
 
-    #verifica se vincitore o patta
+def VerificaVincita(m):
     tris=False
     for i in range(3):
         if(m[i][0]!='*' and m[i][0]==m[i][1] and m[i][0]==m[i][2]):
@@ -54,23 +40,45 @@ while fine==False:
             
     if(m[0][2]!='*' and m[0][2]==m[1][1] and m[0][2]==m[2][0]):
         tris=True
-            
-    if(tris==True):
-        fine=True
-    elif(mosse_rimaste==0):
-        fine=True
-    else:
-        
-        #cambio giocatore
-        if(player==player1):
-            player=player2
-        else:
-            player=player1
 
-if(tris==True):
-    print('ha vinto il giocatore', player)
-else:
-    print('partita patta')
+    return tris
+
+def CambiaPlayer(player):
+    if(player==player1):
+        player=player2
+    else:
+        player=player1
+    return player
+
+def Gioco():
+    mosse_rimaste = 9    
+    player = player1
+    fine   = False
+    #ciclo di gioco
+    while not fine:
+        os.system('cls') # pulisce lo schermo
+
+        StampaGriglia(m) #stampa la griglia
+        
+        r,c = Tira(player) #tiro e verifico mossa
+    
+        #faccio mossa
+        m[r][c]=player
+        mosse_rimaste=mosse_rimaste-1
+
+        tris = VerificaVincita(m)#verifica se vincitore o patta
+            
+        if(tris or mosse_rimaste==0):
+            fine=True
+        else:
+            player=CambiaPlayer(player) #cambio giocatore
+
+    if(tris==True):
+        print('ha vinto il giocatore', player)
+    else:
+        print('partita patta')
+
+Gioco()
 
        
     
