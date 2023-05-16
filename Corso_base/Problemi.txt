@@ -1,0 +1,11 @@
+1) tartaruga: disegnare 
+un'ambulanza
+
+2) gioco tris (senza grafica)
+   tra due giocatori
+
+3) indovina parola
+
+
+
+

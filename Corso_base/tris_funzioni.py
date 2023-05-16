@@ -12,15 +12,18 @@ player2 = 'O'
 player  = player1
 mosse_rimaste=9
 
+def StampaGriglia():
+    for i in range(3):
+        for j in range(3):
+            print(m[i][j],end=' ')
+        print()   
+
 #ciclo di gioco
 while fine==False:
     os.system('cls') # pulisce lo schermo
 
     #stampa la griglia
-    for i in range(3):
-        for j in range(3):
-            print(m[i][j],end=' ')
-        print()
+    StampaGriglia()
         
     
     #tiro e verifico mossa
