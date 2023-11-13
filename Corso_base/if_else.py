@@ -1,4 +1,4 @@
-print('ben venuto')
+print('benvenuto')
 print('come ti chiami ?')
 nome=input()
 
